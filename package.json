@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node index.ts",
     "dev": "nodemon --ext ts,graphql --exec ts-node index.ts",
-    "test": "npx tsc --pretty && jest --verbose --color --updateSnapshot",
+    "test": "npm run tsc && jest --verbose --color --updateSnapshot",
     "tsc": "tsc --pretty",
     "lint": "eslint **/*.ts --max-warnings 0 --color --format stylish",
     "lint:fix": "eslint --ext .js --ext .ts --max-warnings 0 --color --fix --format stylish",
@@ -62,7 +62,10 @@
     "collectCoverage": true,
     "coverageThreshold": {
       "global": {
-        "lines": 90
+        "branches": 80,
+        "functions": 80,
+        "lines": 90,
+        "statements": 90
       }
     },
     "collectCoverageFrom": [
@@ -82,7 +85,7 @@
     "**/*.{js,jsx,ts,tsx,css,scss}": [
       "pretty-quick --verbose --staged --list-different",
       "eslint --max-warnings 0 --fix --color --format stylish",
-      "jest --verbose --findRelatedTests --passWithNoTests --color"
+      "jest --verbose --passWithNoTests --color --collectCoverageFrom --coverageReporters=text-summary --findRelatedTests"
     ]
   }
 }
