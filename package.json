@@ -8,8 +8,8 @@
     "dev": "nodemon --ext ts,graphql --exec ts-node index.ts",
     "test": "npm run tsc && jest --verbose --color --updateSnapshot",
     "tsc": "tsc --pretty",
-    "lint": "eslint **/*.ts --max-warnings 0 --color --format stylish",
-    "lint:fix": "eslint --ext .js --ext .ts --max-warnings 0 --color --fix --format stylish",
+    "lint": "eslint \"**/*.*(js|jsx|ts|tsx)\" --max-warnings 0 --color --format stylish",
+    "lint:fix": "eslint \"**/*.*(js|jsx|ts|tsx)\" --max-warnings 0 --color --fix --format stylish",
     "format": "pretty-quick --verbose \"**/*.*(js|jsx|ts|tsx|scss|css|json)\"",
     "format:check": "pretty-quick --verbose --check \"**/*.*(js|jsx|ts|tsx|scss|css|json)\"",
     "husky:install": "npx husky install && npx husky add .husky/pre-commit 'npx lint-staged'"
@@ -79,10 +79,10 @@
     ]
   },
   "lint-staged": {
-    "**/*.{json,md}": [
+    "**/*.{json,md,css,scss}": [
       "pretty-quick --verbose --staged --list-different"
     ],
-    "**/*.{js,jsx,ts,tsx,css,scss}": [
+    "**/*.{js,jsx,ts,tsx}": [
       "pretty-quick --verbose --staged --list-different",
       "eslint --max-warnings 0 --fix --color --format stylish",
       "jest --verbose --passWithNoTests --color --collectCoverageFrom --coverageReporters=text-summary --findRelatedTests"
