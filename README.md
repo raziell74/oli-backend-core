@@ -1,2 +1,3 @@
-# oli-backend-core
-API backend that will handle core functionality of the OLI platform
+# Oli Core Backend API
+
+API backend that handles the core functionality of the OLI platform

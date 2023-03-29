@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Husky pre-commit hook installation
+.husky
