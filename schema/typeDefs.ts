@@ -2,15 +2,15 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   type Query {
-    sample(id: ID!, input: SampleInput): Sample!
+    querySample(id: ID!, input: SampleInput): Sample!
   }
 
   type Mutation {
-    sample(input: SampleInput): Sample!
+    mutationSample(input: SampleInput): Sample!
   }
 
   type Subscription {
-    sample(id: ID!): Sample!
+    subscriptionSample(id: ID!): Sample!
   }
 
   ### Sample Types ###
