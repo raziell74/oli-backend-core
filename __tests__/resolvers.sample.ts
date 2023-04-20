@@ -1,7 +1,7 @@
 import Query from '../resolvers/Query';
 import Mutation from '../resolvers/Mutation';
 import Subscription from '../resolvers/Subscription';
-import { SampleInput } from '../types/inputTypes';
+import { SampleInput } from '../resolvers/queries/sample';
 
 // resolvers.queries.sample
 describe('resolvers.queries', () => {
