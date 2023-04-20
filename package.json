@@ -85,7 +85,7 @@
     "**/*.{js,jsx,ts,tsx}": [
       "pretty-quick --verbose --staged --list-different",
       "eslint --max-warnings 0 --fix --color --format stylish",
-      "jest --verbose --passWithNoTests --color --collectCoverageFrom --coverageReporters=text-summary --findRelatedTests"
+      "jest --verbose --passWithNoTests --color --collectCoverageFrom --findRelatedTests"
     ]
   }
 }
