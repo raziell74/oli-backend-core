@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
-    "dev": "nodemon --ext ts,graphql --exec ts-node index.ts",
+    "dev": "nodemon --legacy-watch --ext ts,graphql --exec ts-node index.ts",
     "test": "npm run tsc && jest --verbose --color --updateSnapshot",
     "tsc": "tsc --pretty",
     "lint": "eslint \"**/*.*(js|jsx|ts|tsx)\" --max-warnings 0 --color --format stylish",
