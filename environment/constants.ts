@@ -2,6 +2,8 @@
 
 export default {
   port: Number(process.env.PORT) || 3000,
+  secret: process.env.SECRET_KEY || 'olidev',
+  devPass: process.env.DEV_PASS || null,
 
   coreDbUrl: process.env.COREDB_URL || 'mongodb://mongo1/',
 

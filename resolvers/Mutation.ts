@@ -1,5 +1,6 @@
-import { mutationSample } from './mutations/sample';
+// resolvers/Mutation.ts
+import UserMutations from './mutations/User';
 
 export default {
-  mutationSample,
+  ...UserMutations,
 };

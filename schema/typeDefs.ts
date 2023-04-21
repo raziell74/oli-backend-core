@@ -1,24 +1,50 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
+  ### Call Definitions ###
   type Query {
-    querySample(id: ID!, input: SampleInput): Sample!
+    # resolvers/queries/User.ts
+    users(input: FindUsersInput): [User]!
   }
 
   type Mutation {
-    mutationSample(input: SampleInput): Sample!
+    # resolvers/mutations/User.ts
+    createUser(
+      username: String!
+      password: String!
+      firstName: String!
+      lastName: String!
+      email: String!
+      roles: [String!]!
+    ): User!
+    updateUser(_id: ID!, updateData: UpdateUserData): User!
+    deleteUser(_id: ID!): User!
   }
 
-  type Subscription {
-    subscriptionSample(id: ID!): Sample!
+  ### Input Definitions ###
+  input FindUsersInput {
+    _id: ID
+    username: String
+    email: String
+    roles: String
   }
 
-  ### Sample Types ###
-  input SampleInput {
-    isSuccess: Boolean
+  input UpdateUserData {
+    username: String
+    password: String
+    firstName: String
+    lastName: String
+    email: String
+    roles: [String]
   }
 
-  type Sample {
-    success: String
+  ### Type Definitions ###
+  type User {
+    _id: ID!
+    username: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    roles: [String]!
   }
 `;
