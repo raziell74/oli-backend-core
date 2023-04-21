@@ -1,17 +1,17 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { AuthenticationError } from 'apollo-server-errors';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import cors from 'cors';
 import authenticate from './controllers/authController';
 import sessionStatus from './controllers/sessionController';
 import typeDefs from './schema/typeDefs';
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
-import Subscription from './resolvers/Subscription';
 import { conn_core, conn_reports, conn_inspectors } from './environment/connections';
 import User, { IUser } from './models/User';
 import env from './environment/constants';
-import token from './utilities/token';
+import token from './utils/token';
 
 const app = express();
 app.use(cors());
@@ -30,10 +30,7 @@ const server = new ApolloServer({
   resolvers: {
     Query,
     Mutation,
-    Subscription,
   },
-  csrfPrevention: true,
-  cache: 'bounded',
   context: async (ctx) => {
     const jwt = ctx.req.headers.authorization?.split(' ')[1];
     if (!jwt) {
@@ -63,6 +60,8 @@ const server = new ApolloServer({
       authUserId,
     };
   },
+  introspection: true,
+  plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
 });
 
 console.log('Starting Modified Apollo server...');
