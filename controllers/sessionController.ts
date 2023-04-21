@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import token from '../utilities/token';
+import token from '../utils/token';
 
 const sessionStatus = (req: Request, res: Response) => {
   const jwt = req.header('Authorization')?.split(' ')[1];
