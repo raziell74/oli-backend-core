@@ -3,7 +3,7 @@ import User from '../../models/User';
 import ROLES from '../../environment/userRoles';
 import { checkPermission, Context } from '../../utils/permissions';
 
-type FindUsersInput = {
+export type FindUsersInput = {
   _id?: string;
   username?: string;
   email?: string;

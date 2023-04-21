@@ -1,10 +1,9 @@
 // utils/permissions.ts
-import { ExpressContext } from 'apollo-server-express';
 import { ApolloError } from 'apollo-server-errors';
 import User from '../models/User';
 import ROLES from '../environment/userRoles';
 
-export interface Context extends ExpressContext {
+export interface Context {
   ip: string;
   authUserId: string;
 }

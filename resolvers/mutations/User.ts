@@ -5,7 +5,7 @@ import { isValidEmail } from '../../utils/validation';
 import ROLES from '../../environment/userRoles';
 import { checkPermission, Context } from '../../utils/permissions';
 
-type CreateUserData = {
+export type CreateUserData = {
   username: string;
   password: string;
   firstName: string;
@@ -14,7 +14,7 @@ type CreateUserData = {
   roles: string[];
 };
 
-type UpdateUserData = Partial<CreateUserData>;
+export type UpdateUserData = Partial<CreateUserData>;
 
 const UserMutations = {
   createUser: async (_parent: object, args: CreateUserData, { authUserId }: Context) => {
