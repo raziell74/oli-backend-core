@@ -1,19 +1,27 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
-import { authenticate, checkSession } from './controllers/authenticate';
+import authenticate from './controllers/authController';
+import sessionStatus from './controllers/sessionController';
 import typeDefs from './schema/typeDefs';
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
 import Subscription from './resolvers/Subscription';
-import { conn_core, conn_reports, conn_inspectors, cache } from './environment/connections';
+import { conn_core, conn_reports, conn_inspectors } from './environment/connections';
+import User, { IUser } from './models/User';
 import env from './environment/constants';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 app.post('/authenticate', authenticate);
-app.post('/checksession', checkSession);
+console.log(`🚀 Authentication endpoint ready at [post]http://localhost:${env.port}/authenticate`);
+
+app.get('/session-status', sessionStatus);
+console.log(
+  `🚀 User Session Status endpoint ready at [get]http://localhost:${env.port}/session-status`
+);
 
 const server = new ApolloServer({
   typeDefs,
@@ -41,13 +49,23 @@ console.log('Starting Modified Apollo server...');
 (async () => {
   await server.start();
   server.applyMiddleware({ app });
-})();
 
-console.log('Checking database connections...');
-if (!conn_core || !conn_reports || !conn_inspectors || !cache) {
-  throw new Error('One or more of the database connections has failed.');
-}
-console.log('Database connections successful.');
+  console.log('Checking database connections...');
+  if (!conn_core || !conn_reports || !conn_inspectors) {
+    throw new Error('One or more of the database connections has failed.');
+  }
+  console.log('Database connections successful.');
+
+  // Check for database users with mongo init unencrypted passwords
+  const users: IUser[] | null = await User.find({ password: 'change-me' });
+  if (env.devPass && users.length > 0) {
+    console.log(`Initializing user passwords to '${env.devPass}'`);
+    users.map((user: IUser) => {
+      user.password = env.devPass || 'olidev';
+      user.save();
+    });
+  }
+})();
 
 console.log('Creating server...');
 app.listen(env.port, () => {
