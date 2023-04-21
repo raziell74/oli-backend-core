@@ -78,14 +78,14 @@
       }
     },
     "collectCoverageFrom": [
-      "**/*.{ts, tsx}",
-      "!**/__tests__/**",
-      "!**/node_modules/**",
-      "!**/vendor/**",
-      "!**/environment/**",
-      "!**/schema/**",
-      "!**/types/**",
-      "!index.ts"
+      "**/*.{ts, tsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/__tests__/",
+      "/node_modules/",
+      "/environment/",
+      "/schema/",
+      "index.ts"
     ]
   },
   "lint-staged": {
