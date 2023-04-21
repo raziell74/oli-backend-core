@@ -1,5 +1,6 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
+import { AuthenticationError } from 'apollo-server-errors';
 import cors from 'cors';
 import authenticate from './controllers/authController';
 import sessionStatus from './controllers/sessionController';
@@ -10,6 +11,7 @@ import Subscription from './resolvers/Subscription';
 import { conn_core, conn_reports, conn_inspectors } from './environment/connections';
 import User, { IUser } from './models/User';
 import env from './environment/constants';
+import token from './utilities/token';
 
 const app = express();
 app.use(cors());
@@ -32,15 +34,33 @@ const server = new ApolloServer({
   },
   csrfPrevention: true,
   cache: 'bounded',
-  context: (request) => {
-    let serverIP = request.req.headers.host;
+  context: async (ctx) => {
+    const jwt = ctx.req.headers.authorization?.split(' ')[1];
+    if (!jwt) {
+      throw new AuthenticationError('No token provided.');
+    }
 
+    let authUserId: string | null = null;
+    const verifyPayload = token.verify(jwt);
+    switch (verifyPayload.message) {
+      case 'Invalid':
+        throw new AuthenticationError('Invalid token.');
+        break;
+      case 'Expired':
+        throw new AuthenticationError('Session has expired.');
+        break;
+      default:
+        authUserId = verifyPayload.userId;
+    }
+
+    let serverIP = ctx.req.headers.host;
     // Remove existing port for dev builds to only get the host
     serverIP = serverIP?.split(':').shift();
 
     return {
-      request,
+      ctx,
       ip: serverIP,
+      authUserId,
     };
   },
 });
