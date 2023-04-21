@@ -1,5 +1,5 @@
-import { querySample } from './queries/sample';
+import UserQueries from './queries/User';
 
 export default {
-  querySample,
+  ...UserQueries,
 };
